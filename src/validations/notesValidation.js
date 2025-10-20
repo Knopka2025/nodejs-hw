@@ -2,16 +2,17 @@ import { Joi, Segments } from "celebrate";
 import { isValidObjectId } from "mongoose";
 import { TAGS } from "../constants/tags.js";
 
+
 const objectIdValidator = (value, helpers) => {
 	return !isValidObjectId(value) ? helpers.message(`Invalid id format ${value}`) : value;
-};
-
+}
 
 export const noteIdSchema = {
-	[Segments.PARAM]: Joi.object({
+	[Segments.PARAMS]: Joi.object({
 		noteId: Joi.string().custom(objectIdValidator).required(),
 	}),
-};
+}
+
 
 export const createNoteSchema = {
 	[Segments.BODY]: Joi.object({
@@ -26,11 +27,11 @@ export const createNoteSchema = {
 			"string.min": "Content should have at least {#limit} characters",
 		}),
 		tag: Joi.string().valid(...TAGS).required().trim().messages({
-			"any.only": `Tag must be one of: ${TAGS.join(", ")}`,
+			'any.only': `Tag must be one of: ${TAGS.join(', ')}`,
 			"any.required": "Tag is required",
 		}),
-	}),
-};
+	})
+}
 
 export const updateNoteSchema = {
 	[Segments.PARAMS]: Joi.object({
@@ -40,8 +41,8 @@ export const updateNoteSchema = {
 		title: Joi.string().min(1).max(230).trim(),
 		content: Joi.string().allow("").trim(),
 		tag: Joi.string().valid(...TAGS),
-	}).min(1),
-};
+	}).min(1)
+}
 
 export const getAllNotesSchema = {
 	[Segments.QUERY]: Joi.object({
@@ -51,6 +52,5 @@ export const getAllNotesSchema = {
 		tag: Joi.string().valid(...TAGS).trim(),
 		sortBy: Joi.string().valid("_id", "title", "tag").default("_id"),
 		sortOrder: Joi.string().valid("asc", "desc").default("asc"),
-	}),
-};
-
+	})
+}

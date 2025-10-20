@@ -15,9 +15,6 @@ export const getAllNotes = async (req, res) => {
 
 	let notesQuery = Note.find();
 
-	//if (search) {
-	//	notesQuery.where({ $text: { $search: search } });
-	//}
 	if (search) {
 		const regex = new RegExp(search, 'i');
 		notesQuery = notesQuery.or([
@@ -113,4 +110,4 @@ export const updateNote = async (req, res, next) => {
 
 const get_404_ById = (noteId) => {
 	return createHttpError(404, `Note not found by id ${noteId}`)
-} 
+}
