@@ -25,7 +25,6 @@ const notesSchema = new Schema(
 		}
 	}, {
 	timestamps: true,
-	//versionKey: false,
 },)
 
 notesSchema.index({ title: "text", content: "text" });
